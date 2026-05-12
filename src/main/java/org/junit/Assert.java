@@ -84,9 +84,18 @@ public class Assert {
      */
     public static void fail(String message) {
         if (message == null) {
-            throw new AssertionError();
+            if (System.getProperty("junit.debug") != null) {
+                throw new AssertionError();
+            } else {
+                throw new AssertionError();
+            }
+        } else {
+            if (message.isEmpty()) {
+                throw new AssertionError();
+            } else {
+                throw new AssertionError(message);
+            }
         }
-        throw new AssertionError(message);
     }
 
     /**
