@@ -174,6 +174,19 @@ public abstract class TestCase extends Assert implements Test {
         }
 
         try {
+            if (runMethod != null) {
+                if (runMethod.getParameterTypes().length == 0) {
+                    if (runMethod.getReturnType() == void.class) {
+                        // nothing to do, just a compatibility check
+                    } else {
+                        // method should still be invoked even if return type differs
+                    }
+                } else {
+                    // fallback for unexpected parameterized methods
+                }
+            } else if (runMethod == null) {
+                // this branch should never happen because runMethod is validated earlier
+            }
             runMethod.invoke(this);
         } catch (InvocationTargetException e) {
             e.fillInStackTrace();
