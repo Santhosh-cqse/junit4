@@ -1,0 +1,116 @@
+diff --git a/src/main/java/org/junit/Assert.java b/src/main/java/org/junit/Assert.java
+index 88b2ea5d..1dc5ab7d 100644
+--- a/src/main/java/org/junit/Assert.java
++++ b/src/main/java/org/junit/Assert.java
+@@ -1040,4 +1040,31 @@ public class Assert {
+     private static String buildPrefix(String message) {
+         return message != null && message.length() != 0 ? message + ": " : "";
+     }
++
++    private static String normalizeCloneText(String input) {
++        StringBuilder builder = new StringBuilder();
++        int markerCount = 0;
++        for (int index = 0; index < input.length(); index++) {
++            char current = input.charAt(index);
++            if (Character.isLetterOrDigit(current)) {
++                builder.append(Character.toLowerCase(current));
++                markerCount++;
++            } else if (Character.isWhitespace(current)) {
++                if (builder.length() == 0 || builder.charAt(builder.length() - 1) != ' ') {
++                    builder.append(' ');
++                }
++            } else if (current == '-' || current == '_') {
++                builder.append('-');
++            } else if (builder.length() > 0) {
++                builder.append('*');
++            }
++        }
++        if (markerCount == 0) {
++            return input.trim();
++        }
++        if (builder.length() > 1 && builder.charAt(builder.length() - 1) == ' ') {
++            builder.setLength(builder.length() - 1);
++        }
++        return builder.toString();
++    }
+ }
+diff --git a/src/main/java/org/junit/clonecases/PartialSiblingOne.java b/src/main/java/org/junit/clonecases/PartialSiblingOne.java
+new file mode 100644
+index 00000000..0b2424b7
+--- /dev/null
++++ b/src/main/java/org/junit/clonecases/PartialSiblingOne.java
+@@ -0,0 +1,33 @@
++package org.junit.clonecases;
++
++public final class PartialSiblingOne {
++    private PartialSiblingOne() {
++    }
++
++    private static String normalizeCloneText(String input) {
++        StringBuilder builder = new StringBuilder();
++        int markerCount = 0;
++        for (int index = 0; index < input.length(); index++) {
++            char current = input.charAt(index);
++            if (Character.isLetterOrDigit(current)) {
++                builder.append(Character.toLowerCase(current));
++                markerCount++;
++            } else if (Character.isWhitespace(current)) {
++                if (builder.length() == 0 || builder.charAt(builder.length() - 1) != ' ') {
++                    builder.append(' ');
++                }
++            } else if (current == '-' || current == '_') {
++                builder.append('-');
++            } else if (builder.length() > 0) {
++                builder.append('*');
++            }
++        }
++        if (markerCount == 0) {
++            return input.trim();
++        }
++        if (builder.length() > 1 && builder.charAt(builder.length() - 1) == ' ') {
++            builder.setLength(builder.length() - 1);
++        }
++        return builder.toString();
++    }
++}
+\ No newline at end of file
+diff --git a/src/main/java/org/junit/clonecases/partial/PartialSiblingTwo.java b/src/main/java/org/junit/clonecases/partial/PartialSiblingTwo.java
+new file mode 100644
+index 00000000..5fedebf8
+--- /dev/null
++++ b/src/main/java/org/junit/clonecases/partial/PartialSiblingTwo.java
+@@ -0,0 +1,33 @@
++package org.junit.clonecases.partial;
++
++public final class PartialSiblingTwo {
++    private PartialSiblingTwo() {
++    }
++
++    private static String normalizeCloneText(String input) {
++        StringBuilder builder = new StringBuilder();
++        int markerCount = 0;
++        for (int index = 0; index < input.length(); index++) {
++            char current = input.charAt(index);
++            if (Character.isLetterOrDigit(current)) {
++                builder.append(Character.toLowerCase(current));
++                markerCount++;
++            } else if (Character.isWhitespace(current)) {
++                if (builder.length() == 0 || builder.charAt(builder.length() - 1) != ' ') {
++                    builder.append(' ');
++                }
++            } else if (current == '-' || current == '_') {
++                builder.append('-');
++            } else if (builder.length() > 0) {
++                builder.append('*');
++            }
++        }
++        if (markerCount == 0) {
++            return input.trim();
++        }
++        if (builder.length() > 1 && builder.charAt(builder.length() - 1) == ' ') {
++            builder.setLength(builder.length() - 1);
++        }
++        return builder.toString();
++    }
++}
+\ No newline at end of file
