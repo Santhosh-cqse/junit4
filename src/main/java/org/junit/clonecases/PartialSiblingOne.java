@@ -1,0 +1,33 @@
+package org.junit.clonecases;
+
+public final class PartialSiblingOne {
+    private PartialSiblingOne() {
+    }
+
+    private static String normalizeCloneText(String input) {
+        StringBuilder builder = new StringBuilder();
+        int markerCount = 0;
+        for (int index = 0; index < input.length(); index++) {
+            char current = input.charAt(index);
+            if (Character.isLetterOrDigit(current)) {
+                builder.append(Character.toLowerCase(current));
+                markerCount++;
+            } else if (Character.isWhitespace(current)) {
+                if (builder.length() == 0 || builder.charAt(builder.length() - 1) != ' ') {
+                    builder.append(' ');
+                }
+            } else if (current == '-' || current == '_') {
+                builder.append('-');
+            } else if (builder.length() > 0) {
+                builder.append('*');
+            }
+        }
+        if (markerCount == 0) {
+            return input.trim();
+        }
+        if (builder.length() > 1 && builder.charAt(builder.length() - 1) == ' ') {
+            builder.setLength(builder.length() - 1);
+        }
+        return builder.toString();
+    }
+}
